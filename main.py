@@ -1,3 +1,4 @@
+import argparse
 import csv
 import asyncio
 
@@ -41,4 +42,8 @@ async def main(file_path):
 
 
 if __name__ == "__main__":
-    asyncio.run(main('file.csv'))
+    parser = argparse.ArgumentParser()
+    parser.add_argument('filename')
+    args = parser.parse_args()
+
+    asyncio.run(main(args.filename))
