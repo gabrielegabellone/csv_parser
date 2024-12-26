@@ -5,7 +5,7 @@ I organized the project in two parts:
 - a CSV generator that instead allows you to manually generate the CSV by giving input information on products such as name, description, price and quantity, here instead I had the opportunity to experiment with the descriptors in order to be able to manage any input validations.
 
 ## What is a Descriptor?
-Is an object whose attributes can be accessed through the methods of its protocol(`__get__()`, `__set__()`, `__delete()`). 
+Is an object whose attributes can be accessed through the methods of its protocol(`__get__()`, `__set__()`, `__delete__()`). 
 The class that uses the features implemented by the descriptor is called **ClientClass**, while the class that implements 
 the methods of the descriptor is called **DescriptorClass**. Therefore, in order to use the features of the DescriptorClass, 
 the ClientClass must have a class attribute inside it, which will be an instance of the DescriptorClass.
@@ -76,15 +76,65 @@ class Product:
 So to sum up:
 - FloatField's `__get__` method will be called when we get the `price` attribute of a `Product` instance, while `__set__` when we assign them a value: 
   ```
-  p = Product(name='PC', description='')
-  p.price = 300
-  >> __set__ method call
-  p.price
-  >> __get__ method call
-  >> 300
+  >>> p = Product(name='PC', description='')
+  >>> p.price = 300
+  __set__ method call
+  >>> p.price
+  __get__ method call
+  300
   ```
 - `__set_name__()` is another method of the protocol that takes care of dynamically setting the name of the attribute that we 
 use to store the value. In our case it will set the `price` and `quantity` keys of the dict for instances of the `Product` class respectively.
 - Descriptors are really useful when we want to have multiple attributes that share the same properties in different classes, 
 in our example we could reuse an `IntegerField` or `FloatField` attribute multiple times in different classes without having 
 to rewrite the same code multiple times.
+
+## What is a Generator?
+A `Generator` is a type of object that is returned by functions that return their value using the `yield` keyword. 
+This allows you to instantiate `Generator` objects that produce a value when iterated. 
+The advantage is that you can iterate and produce values when needed rather than having them all stored in memory.
+
+### Practical Example
+In the project I implemented the `csv_reader()` function which takes care of returning the lines of the csv file one at a time.
+
+```python
+import csv
+
+
+def csv_reader(file_path: str):
+    """It takes care of yielding the rows of a csv file.
+
+    :param file_path: the path of the csv file to read
+    """
+    with open(file_path, mode='r', newline='', encoding='utf-8') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            yield row        
+```
+
+This allows you to instantiate a `Generator` object that will return the lines of the file when it is iterated.
+````
+>>> rows = csv_reader(file_path='example.csv')
+>>> for r in rows:
+...     print(r)
+{'name': 'Mouse', 'description': 'a mouse for test purposes', 'price': '10.0', 'quantity': '1.0'}
+{'name': 'PC', 'description': 'a PC', 'price': '300.0', 'quantity': '1.0'}
+{'name': 'Desk', 'description': '', 'price': '80.0', 'quantity': '1.0'}
+{'name': 'Pen', 'description': 'black pen', 'price': '1.5', 'quantity': '1.0'}
+````
+
+The advantage is that if for example, it is a file with many lines these will not be stored in memory in the variable 
+`rows`, but will all be produced at the moment. 
+It should be noted that the generator, by its nature, stops producing the values once the iteration has finished, 
+so if we try to call the for loop on the variable rows again no value will be produced, in the same way if we call the 
+function `next()` (a built-in function of iterators that returns the next value in an iteration we will get a `StopIteration` exception.
+
+```
+>>> for r in rows:
+...     print(r)
+
+>>> next(rows)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+StopIteration
+```
