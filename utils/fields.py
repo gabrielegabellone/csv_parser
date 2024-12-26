@@ -15,6 +15,11 @@ class FloatField:
         return instance.__dict__.get(self._name, self.default)
 
     def __set_name__(self, owner, name):
+        """Dynamically sets the name of the attribute we use to store the value.
+
+        :param owner: the ClientClass that uses the descriptor, in our case the `Product` class
+        :param name: The name of the attribute corresponding to the instance of this DescriptorClass, in our case `price`
+        """
         self._name = name
 
     def __set__(self, instance, value: float) -> None:

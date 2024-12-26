@@ -1,5 +1,6 @@
 import csv
 import datetime
+
 from utils.product import Product
 
 
