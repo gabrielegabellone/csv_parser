@@ -4,6 +4,43 @@ I organized the project in two parts:
 - a CSV parser, even if it actually deals with iterating and printing line by line, here I had the opportunity to put the generators into practice
 - a CSV generator that instead allows you to manually generate the CSV by giving input information on products such as name, description, price and quantity, here instead I had the opportunity to experiment with the descriptors in order to be able to manage any input validations.
 
+## How to run
+### CSV generation
+First of all if you don't already have a CSV file or if you want to generate one you need to run the command:
+```
+python generate_csv.py
+```
+
+Once you run this command, you will be asked for the number of products you want to insert into the CSV and for each 
+product you will be asked for the name, description, quantity and price:
+```
+How many products do you want to insert in the csv? 2
+
+Enter product 1/2
+Enter the product name: Mouse
+Enter a description: a mouse for test purposes
+Insert a price: 10
+Insert a quantity: 1
+
+Enter product 2/2
+Enter the product name:
+```
+At the end you will find in the root of the project a csv file called `products` and followed by the date and time at the 
+time of generation.
+
+### CSV reading
+To read a csv you will need to run the following command, where the `<path>` argument is the path to the csv file:
+```
+python main.py <path>
+```
+
+Each line of the csv will be printed in the terminal in **dict** format and preceded by the string `Processing`:
+```
+Processing {'name': 'Mouse', 'description': 'a mouse for test purposes', 'price': '10.0', 'quantity': '1.0'}
+Processing {'name': 'PC', 'description': 'a PC', 'price': '300.0', 'quantity': '1.0'}
+
+```
+
 ## What is a Descriptor?
 Is an object whose attributes can be accessed through the methods of its protocol(`__get__()`, `__set__()`, `__delete__()`). 
 The class that uses the features implemented by the descriptor is called **ClientClass**, while the class that implements 
