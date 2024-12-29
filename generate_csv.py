@@ -1,6 +1,7 @@
 import csv
 import datetime
 
+from utils.input_product_number import InputProductNumber
 from utils.product import Product
 
 
@@ -22,12 +23,17 @@ def write_csv(products: list):
             writer.writerow([product.name, product.description, product.price, product.quantity])
 
 
-if __name__ == '__main__':
-    products_number = int(input('How many products do you want to insert in the csv? '))
+def enter_products(number_of_products: int) -> list:
+    """
+    Receives user data as input for product insertion.
+
+    :param number_of_products: the number of products to insert
+    :return: a list of `Product` instances
+    """
     products = []
 
-    while len(products) < products_number:
-        print(f'\nEnter product {len(products)+1}/{products_number}')
+    while len(products) < number_of_products:
+        print(f'\nEnter product {len(products)+1}/{number_of_products}')
         name = Product.choose_name()
         description = Product.choose_description()
 
@@ -37,4 +43,14 @@ if __name__ == '__main__':
 
         products.append(p)
 
+    return products
+
+
+def main():
+    number_of_products = InputProductNumber.enter_product_number()
+    products = enter_products(number_of_products)
     write_csv(products)
+
+
+if __name__ == '__main__':
+    main()
