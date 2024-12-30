@@ -15,6 +15,8 @@ class FloatField:
         self.min_value = min_value
 
     def __get__(self, instance, owner) -> object:
+        if instance is None:
+            return f'{self.__class__.__name__}.{owner.__name__}'
         return instance.__dict__.get(self._name, self.default)
 
     def __set_name__(self, owner, name):

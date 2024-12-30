@@ -75,6 +75,8 @@ class FloatField:
 
     def __get__(self, instance, owner) -> object:
         print('__get__ method call')
+        if instance is None:
+            return f'{self.__class__.__name__}.{owner.__name__}'
         return instance.__dict__.get(self._name, self.default)
 
     def __set_name__(self, owner, name):
@@ -134,6 +136,13 @@ So to sum up:
   ```
 - `__set_name__()` is another method of the protocol that takes care of dynamically setting the name of the attribute that we 
 use to store the value. In our case it will set the `price` and `quantity` keys of the dict for instances of the `Product` class respectively.
+- Checking whether `instance` is `None` in the `__get__` method is to handle the case where the descriptor is called 
+from the class rather than the instance:
+  ```
+  >>> from utils.product import Product
+  >>> Product.price                  
+  'FloatField.Product'
+  ```
 - Descriptors are really useful when we want to have multiple attributes that share the same properties in different classes, 
 in our example we could reuse an `IntegerField` or `FloatField` attribute multiple times in different classes without having 
 to rewrite the same code multiple times.
