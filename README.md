@@ -57,6 +57,8 @@ In the project I implemented a Product class and to manage those fields that wou
 
 ```python
 # utils/fields.py
+from decimal import Decimal
+
 
 class FloatField:
     """
@@ -76,6 +78,11 @@ class FloatField:
         return instance.__dict__.get(self._name, self.default)
 
     def __set_name__(self, owner, name):
+        """Dynamically sets the name of the attribute we use to store the value.
+
+        :param owner: the ClientClass that uses the descriptor, in our case the `Product` class
+        :param name: The name of the attribute corresponding to the instance of this DescriptorClass, in our case `price`
+        """
         self._name = name
 
     def __set__(self, instance, value: float) -> None:
@@ -84,7 +91,7 @@ class FloatField:
         instance.__dict__[self._name] = value
 
     def validate(self, value: float):
-        if self.min_value and value < self.min_value:
+        if self.min_value is not None and value < self.min_value:
             raise AttributeError(f'Value must be at least {self.min_value}')
 
 
@@ -92,9 +99,9 @@ class IntegerField(FloatField):
     """
     `DescriptorClass` for handling `int` attributes with advanced features such as default and minimum values.
     """
-    def validate(self, value: float):
-        super().__init__(value)
-        if not value.is_integer():
+    def validate(self, value: int):
+        super().validate(value)
+        if not Decimal(value) % 1 == 0:
             raise AttributeError('Value must be an integer')
 ```
 ```python
