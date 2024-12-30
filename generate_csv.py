@@ -58,7 +58,9 @@ def enter_products(number_of_products: int) -> list:
 
 
 def main():
-    number_of_products = InputProductNumber.enter_product_number()
+    number_of_products = InputProductNumber().enter_product_number()
+    if number_of_products == 0:
+        quit()
     products = enter_products(number_of_products)
     write_csv(products)
 
