@@ -5,13 +5,24 @@ from utils.input_product_number import InputProductNumber
 from utils.product import Product
 
 
-def write_csv(products: list):
-    """Takes care of writing a csv file containing the list of products passed as a parameter. A file `products_<timestamp>.csv` is saved in the root.
+def get_filename() -> str:
+    """
+    Generate csv file name.
 
-    :param products: a list of `Product` instances
+    :return: the filename
     """
     now = datetime.datetime.now().strftime("%m%d%Y_%H%M%S")
     filename = f'products_{now}.csv'
+    return filename
+
+
+def write_csv(products: list):
+    """Takes care of writing a csv file containing the list of products passed as a parameter.
+    The file is saved in the root.
+
+    :param products: a list of `Product` instances
+    """
+    filename = get_filename()
 
     with open(filename, 'w', newline='') as file:
         writer = csv.writer(file)

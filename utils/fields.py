@@ -1,3 +1,6 @@
+from decimal import Decimal
+
+
 class FloatField:
     """
     `DescriptorClass` for handling `float` attributes with advanced features such as default and minimum values.
@@ -27,7 +30,7 @@ class FloatField:
         instance.__dict__[self._name] = value
 
     def validate(self, value: float):
-        if self.min_value and value < self.min_value:
+        if self.min_value is not None and value < self.min_value:
             raise AttributeError(f'Value must be at least {self.min_value}')
 
 
@@ -35,7 +38,7 @@ class IntegerField(FloatField):
     """
     `DescriptorClass` for handling `int` attributes with advanced features such as default and minimum values.
     """
-    def validate(self, value: float):
-        super().__init__(value)
-        if not value.is_integer():
+    def validate(self, value: int):
+        super().validate(value)
+        if not Decimal(value) % 1 == 0:
             raise AttributeError('Value must be an integer')
