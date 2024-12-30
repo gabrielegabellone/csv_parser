@@ -5,6 +5,11 @@ I organized the project in two parts:
 - a CSV generator that instead allows you to manually generate the CSV by giving input information on products such as name, description, price and quantity, here instead I had the opportunity to experiment with the descriptors in order to be able to manage any input validations.
 
 ## How to run
+### Install requirements
+```
+pip install -r requirements.txt
+```
+
 ### CSV generation
 First of all if you don't already have a CSV file or if you want to generate one you need to run the command:
 ```
