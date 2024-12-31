@@ -46,7 +46,9 @@ class TestGenerateCsv(unittest.TestCase):
         """
         Returns a list of `Product` instances to use for testing purposes.
         """
-        p = Product('mouse', 'a mouse for test purposes')
+        p = Product()
+        p.name = 'mouse'
+        p.description = 'a mouse for test purposes'
         p.quantity = 1
         p.price = 10.0
         return [p, ]

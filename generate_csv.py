@@ -45,10 +45,10 @@ def enter_products(number_of_products: int) -> list:
 
     while len(products) < number_of_products:
         print(f'\nEnter product {len(products)+1}/{number_of_products}')
-        name = Product.choose_name()
-        description = Product.choose_description()
 
-        p = Product(name, description)
+        p = Product()
+        p.choose_name()
+        p.choose_description()
         p.choose_price()
         p.choose_quantity()
 
