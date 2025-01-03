@@ -47,9 +47,14 @@ class IntegerField(FloatField):
 
 
 class StringField:
+    """
+    `DescriptorClass` for handling `str` attributes with advanced features such as default and default values and empty
+    string control.
+    """
     def __init__(self, default=None, blank=False):
         """
         :param default: the default value that the field will have if one is not provided, default to `None`
+        :param blank: if it is `True` it indicates that the string can be empty, if `True`True it cannot, default to `False`
         """
         self._name = None
         self.default = default
