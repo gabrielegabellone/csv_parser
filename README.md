@@ -6,6 +6,7 @@ I organized the project in two parts:
 
 ## How to run
 ### Install requirements
+Make sure you have Python 3.11 or next and run the following command:
 ```
 pip install -r requirements.txt
 ```
@@ -44,6 +45,12 @@ Each line of the csv will be printed in the terminal in **dict** format and prec
 Processing {'name': 'Mouse', 'description': 'a mouse for test purposes', 'price': '10.0', 'quantity': '1.0'}
 Processing {'name': 'PC', 'description': 'a PC', 'price': '300.0', 'quantity': '1.0'}
 
+```
+
+### Run tests
+You can run unit tests by running the following command:
+```
+python -m unittest discover tests 
 ```
 
 ## What is a Descriptor?
